@@ -10,7 +10,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 
 /* InfiBlocks!
@@ -19,7 +18,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
  */
 
 @Mod(modid = "InfiBlocks", name = "InfiBlocks", version = "1.4.6_2013.1.11b")
-@NetworkMod(serverSideRequired = false, clientSideRequired = true)
+
 public class InfiBlocks
 {
 	/* Proxies for sides, used for graphics processing */
@@ -38,15 +37,15 @@ public class InfiBlocks
 		return contentInstance;
 	}
 	
-	@PreInit
-	public void preInit(FMLPreInitializationEvent evt)
+	@EvenHandler
+	public void preInit(FMLPreInitializationEvent event)
 	{
 		PHInfiBlocks.initProps();		
 		contentInstance = new InfiBlockContent();
 		contentInstance.init();
 	}
 	
-	@Init
+	@EventHandler
 	public void load(FMLInitializationEvent evt) 
 	{
 		proxy.registerRenderer();
@@ -59,7 +58,7 @@ public class InfiBlocks
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 	}
 	
-	@PostInit
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent evt)
 	{
 		contentInstance.resolveModConflicts();
